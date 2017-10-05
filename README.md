@@ -1,6 +1,8 @@
 # papirus
 
-ruby gem to talk to the PAPiRus display
+ruby gem to talk to the (PAPiRus)[https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1] display
+
+before you start playing make sure you got the edp-fuse setup
 
 ## epaper fuse driver installation instructions (if you have not done that already ::)
 ```bash
@@ -90,3 +92,6 @@ If you want to test the gem, but don't have your PaPiRus available, you can do t
 * make load png image with chunky_png work (now output is black)
 * make a display.load(image) that takes multiple formats and figures out how to present them
 * create an issue to add your own requests :)
+
+##Other resources
+* (pi supply python driver)[https://github.com/PiSupply/PaPiRus]
