@@ -1,6 +1,6 @@
 # papirus
 
-ruby gem to talk to the (PAPiRus)[https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1] display
+ruby gem to talk to the [PaPiRus](https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1) display
 
 before you start playing make sure you got the edp-fuse setup
 
@@ -15,6 +15,9 @@ make rpi-install EPD_IO=epd_io.h PANEL_VERSION='V231_G2'
 systemctl enable epd-fuse.service
 systemctl start epd-fuse
 ```
+
+You can find more detailed instructions [https://github.com/repaper/gratis](here)
+
 ## gem installation
 
 ```bash
@@ -32,8 +35,11 @@ display = PaPiRus::Display.new()
 image = ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE)
 #and we draw a circle on it which is about the size of the screen
 image.circle(display.width/2, display.height/2, display.height/2-2)
-# have a look at https://github.com/wvanbergen/chunky_png for more examples
+```
 
+have a look at [chunky_png](https://github.com/wvanbergen/chunky_png/wiki) for more examples
+
+```
 #and last we dump the image as bitsteam to the display
 display.show(image.to_bit_stream)
 
@@ -93,5 +99,6 @@ If you want to test the gem, but don't have your PaPiRus available, you can do t
 * make a display.load(image) that takes multiple formats and figures out how to present them
 * create an issue to add your own requests :)
 
-##Other resources
-* (pi supply python driver)[https://github.com/PiSupply/PaPiRus]
+## Other resources
+
+* [pi supply python driver](https://github.com/PiSupply/PaPiRus)
