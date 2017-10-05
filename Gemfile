@@ -5,6 +5,8 @@ source "https://rubygems.org"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
+#gem "chunky_png"
+
 group :development do
   gem "shoulda", ">= 0"
   gem "rdoc", "~> 3.12"

@@ -16,12 +16,14 @@ Juwelier::Tasks.new do |gem|
   gem.name = "papirus"
   gem.homepage = "http://github.com/mmolhoek/papirus"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{ruby gem to access the PaPiRus display}
+  gem.description = %Q{This gem can be used to talk to the PaPiRus e-paper display}
   gem.email = "mischamolhoek@gmail.com"
   gem.authors = ["Mischa Molhoek"]
 
   # dependencies defined in Gemfile
+  gem.add_dependency 'chunky_png'
+  gem.files = Dir.glob('lib/**/*.rb')
 end
 Juwelier::RubygemsDotOrgTasks.new
 require 'rake/testtask'
