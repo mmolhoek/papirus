@@ -1,8 +1,6 @@
 # papirus
 
-ruby gem to talk to the PAPiRus display (wip)
-
-* it is not working yet. please wait until I finished the first release and update the readme with instructions :)
+ruby gem to talk to the PAPiRus display
 
 ## epaper fuse driver installation instructions (if you have not done that already ::)
 ```bash
@@ -45,8 +43,18 @@ image.replace!(ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Co
 image.circle(display.width/2, display.height/2, display.height/4)
 display.show(image.to_bit_stream, 'F')
 
+# or update the screen for multiple circles
+display.clear
+2.step(image.height/2-2, 5).each do |radius|
+    image.replace!(ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE))
+    image.circle(display.width/2, display.height/2, radius)
+    display.show(image.to_bit_stream, 'F')
+end
+```
+
 ## from here WIP
-#or load a png
+
+#img loading does not work yet
 image = ChunkyPNG::Image.from_file(pngfile)
 display.show(image.to_bit_stream)
 
@@ -60,4 +68,3 @@ display.partial_update
 
 #or when testing to a temp file (run createtestepd.sh to create paths in /tmp)
 display = PaPiRus::Display.new(epd_path: '/tmp/epd')
-
