@@ -47,15 +47,28 @@ display.clear
     image.circle(display.width/2, display.height/2, radius)
     display.show(image.to_bit_stream, 'F')
 end
-
-# there are multiple screen commands ['F', 'P', 'U', 'C']
-
-* you can call `display.show(image.to_bit_stream); display.update` or `display.show(image.to_bit_stream, 'U')`
-* you can call `display.show(image.to_bit_stream); display.fast_update` or `display.show(image.to_bit_stream, 'F')`
-* you can call `display.show(image.to_bit_stream); display.partial_update` or `display.show(image.to_bit_stream, 'P')`
-
 ```
-# Testing without a PAPiRus display
+
+## there are multiple screen commands ['F', 'P', 'U', 'C']
+
+Full update (with screen cleaning):
+
+```display.show(image.to_bit_stream); display.update``` or
+
+```display.show(image.to_bit_stream, 'U')```
+
+Fast update:
+
+```display.show(image.to_bit_stream); display.fast_update```
+```display.show(image.to_bit_stream, 'F')```
+
+Partial update:
+
+```display.show(image.to_bit_stream); display.partial_update``` or
+
+```display.show(image.to_bit_stream, 'P')```
+
+## Testing without a PAPiRus display
 
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
@@ -68,7 +81,7 @@ If you want to test the gem, but don't have your PaPiRus available, you can do t
 * when you run `display.show` the **fake** display /tmp/epd/LE/display is filled with your image
 * now you can use a bin editor like xxd to have a look at the result: `xxd -b /tmp/epd/LE/display`
 
-# TODO
+## TODO
 
 * make the image.to_bit_stream routine faster (as it is now to slow to do animations with partial updates)
 * add support for reading the temperature of the display
