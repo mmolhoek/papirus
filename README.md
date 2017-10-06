@@ -48,7 +48,11 @@ display.clear
     display.show(image.to_bit_stream, 'F')
 end
 
-# there are multiple screen commands []
+# there are multiple screen commands ['F', 'P', 'U', 'C']
+
+* you can call `display.show(image.to_bit_stream); display.update` or `display.show(image.to_bit_stream, 'U')`
+* you can call `display.show(image.to_bit_stream); display.fast_update` or `display.show(image.to_bit_stream, 'F')`
+* you can call `display.show(image.to_bit_stream); display.partial_update` or `display.show(image.to_bit_stream, 'P')`
 
 ```
 # Testing without a PAPiRus display
