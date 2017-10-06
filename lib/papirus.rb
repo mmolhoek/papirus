@@ -2,7 +2,7 @@ require_relative "chunky"
 
 module PaPiRus
     class Display
-        attr_reader :epd_path, :width, :height, :panel, :cog, :film, :auto
+        attr_reader :epd_path, :width, :height, :panel, :cog, :film, :auto, :allowed_commands
         attr_accessor :rotation, :inverse, :image
 
         def initialize(epd_path: '/dev/epd', width: 200, height: 96, panel: 'EPD 2.0', cog: 0, film: 0, auto: false, inverse: false, rotation: 0)
@@ -12,6 +12,7 @@ module PaPiRus
                 v = eval(k.to_s)
                 instance_variable_set("@#{k}", v) unless v.nil?
             end
+            @allowed_commands = ['F', 'P', 'U', 'C']
             get_display_info_from_edp
         end
 
@@ -22,7 +23,7 @@ module PaPiRus
             File.open(File.join(@epd_path, "LE", "display#{@inverse ? '_inverse': ''}"), 'wb') do |io|
                 io.write data
             end
-            command(updatemethod)
+            command(@allowed_commands.include?(updatemethod) ? updatemethod : 'U')
         end
 
         def fast_update()
@@ -41,8 +42,17 @@ module PaPiRus
             command('C')
         end
 
+        def command(c)
+            raise "command #{c} does not exist" unless @allowed_commands.include?(c)
+            File.open(File.join(@epd_path, "command"), "wb") do |io|
+                io.write(c)
+            end
+        end
+
     private
         def get_display_info_from_edp
+            #now we will read the info of the installed display
+            #and update the properties accordingly
             if File.exists?(File.join(@epd_path, 'panel'))
                 info = File.read(File.join(@epd_path, 'panel'))
                 if match = info.match(/^([A-Za-z]+\s+\d+\.\d+)\s+(\d+)x(\d+)\s+COG\s+(\d+)\s+FILM\s+(\d+)\s*$/)
@@ -57,9 +67,5 @@ module PaPiRus
             end
         end
 
-        def command(c)
-            f = File.new(File.join(@epd_path, "command"), "wb")
-            f.write(c)
-        end
     end
 end
