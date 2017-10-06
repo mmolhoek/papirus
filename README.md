@@ -6,10 +6,7 @@ ruby gem to talk to the PAPiRus display
 ```bash
 sudo apt-get install libfuse-dev -y
 
-mkdir /tmp/papirus
-cd /tmp/papirus
 git clone https://github.com/repaper/gratis.git
-
 cd gratis
 make rpi EPD_IO=epd_io.h PANEL_VERSION='V231_G2'
 make rpi-install EPD_IO=epd_io.h PANEL_VERSION='V231_G2'
@@ -50,21 +47,29 @@ display.clear
     image.circle(display.width/2, display.height/2, radius)
     display.show(image.to_bit_stream, 'F')
 end
+
+# there are multiple screen commands []
+
 ```
+# Testing without a PAPiRus display
 
-## from here WIP
+If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
-#img loading does not work yet
-image = ChunkyPNG::Image.from_file(pngfile)
-display.show(image.to_bit_stream)
+* clone this repo
+* run the createtestepd.sh script that is in the repo which creates the needed files and folders in /tmp/epd
+* start irb
+* require 'papirus'
+* display = PaPiRus::Display.new(epd_path: '/tmp/epd')
+* play with the examples above
+* when you run `display.show` the **fake** display /tmp/epd/LE/display is filled with your image
+* now you can use a bin editor like xxd to have a look at the result: `xxd -b /tmp/epd/LE/display`
 
-# more control
-display = PaPiRus::Display.new()
-display.load(imagefile)
+# TODO
 
-display.update #or
-display.fast_update #or
-display.partial_update
-
-#or when testing to a temp file (run createtestepd.sh to create paths in /tmp)
-display = PaPiRus::Display.new(epd_path: '/tmp/epd')
+* make the image.to_bit_stream routine faster (as it is now to slow to do animations with partial updates)
+* add support for reading the temperature of the display
+* add support for changing the update rate
+* make the gem not depending on chunky_png
+* make load png image with chunky_png work (now output is black)
+* make a display.load(image) that takes multiple formats and figures out how to present them
+* create an issue to add your own requests :)
