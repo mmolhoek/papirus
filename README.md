@@ -76,6 +76,13 @@ Partial update:
 
 ```display.show(image.to_bit_stream, 'P')```
 
+## Load an image from a png file
+
+```
+image = ChunkyPNG::Image.from_file('/some/png/file/path.png')
+display.show(encode_png_pixels_to_scanline_grayscale_1bit(pixels))
+```
+
 ## Testing without a PAPiRus display
 
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
