@@ -47,7 +47,7 @@ display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick
 git clone https://github.com/mmolhoek/papirus
 irb
 require 'papirus'
-require_relative 'lib/chunky' # add's to_bit_stream function to chucky
+require 'papirus/chunky' # add's to_bit_stream function to chucky
 
 #lets get a clean png of the size of the display to play with using chunky_png
 image = ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE)
