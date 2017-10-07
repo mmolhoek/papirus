@@ -11,7 +11,6 @@ module ChunkyPNG::Canvas::StreamExporting
         #as the ChunkyPNG library works with 4 bytes data per pixel (1 byte for R, G, B and transparancy)
         #and the EDP needs 1 bit per pixel (on or off), we need some way to traverse over all pixels
         #and add a bit to a byte stream for each pixel. so
-
         bytes = []
         #for each 8 pixels (the ChunkyPNG library keeps an array of all pixels used, containing ChunkyPNG::Color elements)
         pixels.each_slice(8).map do |pixels|
@@ -26,6 +25,6 @@ module ChunkyPNG::Canvas::StreamExporting
             bytes.push(byte)
         end
         #now we just need to pack all bytes into a file writable string
-        bytes.pack('C'*bytes.length)
+        bytes.pack('C*')
     end
 end

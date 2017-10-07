@@ -30,8 +30,21 @@ require 'papirus'
 
 # first we get ourself a display
 display = PaPiRus::Display.new()
+```
 
-#lets get a clean clean png of the size of the display to play with using chunky_png
+# Playing with RMagic
+
+```
+require 'rmakgick'
+img = Magick::Image::read('mischa.jpg')[0]
+display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob()
+```
+
+# Playing with Chunky_PNG
+```
+require_relative "lib/chunky" # add's to_bit_stream function to chucky
+
+#lets get a clean png of the size of the display to play with using chunky_png
 image = ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE)
 #and we draw a circle on it which is about the size of the screen
 image.circle(display.width/2, display.height/2, display.height/2-2)
@@ -101,7 +114,6 @@ If you want to test the gem, but don't have your PaPiRus available, you can do t
 * make the image.to_bit_stream routine faster (as it is now to slow to do animations with partial updates)
 * add support for reading the temperature of the display
 * add support for changing the update rate
-* make the gem not depending on chunky_png
 * make load png image with chunky_png work (now output is black)
 * make a display.load(image) that takes multiple formats and figures out how to present them
 * create an issue to add your own requests :)

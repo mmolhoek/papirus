@@ -22,7 +22,6 @@ Juwelier::Tasks.new do |gem|
   gem.authors = ["Mischa Molhoek"]
 
   # dependencies defined in Gemfile
-  gem.add_dependency 'chunky_png'
   gem.files = Dir.glob('lib/**/*.rb')
 end
 Juwelier::RubygemsDotOrgTasks.new

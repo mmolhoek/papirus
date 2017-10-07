@@ -1,5 +1,3 @@
-require_relative "chunky"
-
 module PaPiRus
     class Display
         attr_reader :epd_path, :width, :height, :panel, :cog, :film, :auto, :allowed_commands
