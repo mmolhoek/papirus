@@ -34,15 +34,20 @@ display = PaPiRus::Display.new()
 
 # Playing with RMagic
 
-```
-require 'rmakgick'
-img = Magick::Image::read('mischa.jpg')[0]
-display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob()
+```ruby
+require 'rmagick'
+
+img = Magick::Image::read('/path/to/img/file.(png|jpg/etc')[0]
+# we have to translate it to a 2 bit grayscale as that is what our PaPiRus understands
+display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob())
 ```
 
 # Playing with Chunky_PNG
-```
-require_relative "lib/chunky" # add's to_bit_stream function to chucky
+```ruby
+git clone https://github.com/mmolhoek/papirus
+irb
+require 'papirus'
+require_relative 'lib/chunky' # add's to_bit_stream function to chucky
 
 #lets get a clean png of the size of the display to play with using chunky_png
 image = ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE)
@@ -52,7 +57,7 @@ image.circle(display.width/2, display.height/2, display.height/2-2)
 
 have a look at [chunky_png](https://github.com/wvanbergen/chunky_png/wiki) for more examples
 
-```
+```ruby
 #and last we dump the image as bitsteam to the display
 display.show(image.to_bit_stream)
 
@@ -91,7 +96,7 @@ Partial update:
 
 ## Load an image from a png file
 
-```
+```ruby
 image = ChunkyPNG::Image.from_file('/some/png/file/path.png')
 display.show(encode_png_pixels_to_scanline_grayscale_1bit(pixels))
 ```
