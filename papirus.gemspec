@@ -21,8 +21,8 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
-    "lib/chunky.rb",
-    "lib/papirus.rb"
+    "lib/papirus.rb",
+    "lib/papirus/chunky.rb"
   ]
   s.homepage = "http://github.com/mmolhoek/papirus"
   s.licenses = ["MIT"]
