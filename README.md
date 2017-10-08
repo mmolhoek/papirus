@@ -105,6 +105,8 @@ display = PaPiRus::Display.new()
 image = ChunkyPNG::Image.from_file('out.png')
 display.show(image.to_bit_stream(true))
 ```
+result:
+![that's me](https://raw.githubusercontent.com/mmolhoek/papirus/master/example_output.jpg)
 
 # Playing with RMagic (does not work yet), did not figure out right command
 
