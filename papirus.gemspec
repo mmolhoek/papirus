@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Mischa Molhoek"]
-  s.date = "2017-10-07"
+  s.date = "2017-10-08"
   s.description = "This gem can be used to talk to the PaPiRus e-paper display"
   s.email = "mischamolhoek@gmail.com"
   s.extra_rdoc_files = [
