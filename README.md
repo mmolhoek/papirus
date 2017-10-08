@@ -42,9 +42,8 @@ img = Magick::Image::read('/path/to/img/file.(png|jpg/etc')[0]
 display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob())
 ```
 
-# Playing with Chunky_PNG
+# Playing with Chunky_PNG (does work, but only drawing, not yet image loading)
 ```ruby
-git clone https://github.com/mmolhoek/papirus
 irb
 require 'papirus'
 require 'papirus/chunky' # add's to_bit_stream function to chucky
