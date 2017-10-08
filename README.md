@@ -32,7 +32,7 @@ require 'papirus'
 display = PaPiRus::Display.new()
 ```
 
-# Playing with RMagic
+# Playing with RMagic (does not work yet), did not figure out right command
 
 ```ruby
 require 'rmagick'
