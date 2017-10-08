@@ -32,17 +32,7 @@ require 'papirus'
 display = PaPiRus::Display.new()
 ```
 
-# Playing with RMagic (does not work yet), did not figure out right command
-
-```ruby
-require 'rmagick'
-
-img = Magick::Image::read('/path/to/img/file.(png|jpg/etc')[0]
-# we have to translate it to a 2 bit grayscale as that is what our PaPiRus understands
-display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob())
-```
-
-# Playing with Chunky_PNG (does work, but only drawing, not yet image loading)
+# Playing with Chunky_PNG
 ```ruby
 irb
 require 'papirus'
@@ -93,11 +83,47 @@ Partial update:
 
 ```display.show(image.to_bit_stream, 'P')```
 
-## Load an image from a png file
+## Load an image from a png file with convert and chunky
+
+First, let's use Image Magick's `convert` tool to convert any image into a b/w image the way the diplay likes it
+```bash
+convert in.jpg -resize '264x176' -gravity center -extent '264x176' -colorspace gray  -colors 2 -type bilevel out.png
+```
+
+Where
+* the -resize scales the image to fit the display
+* The -gravity and -extent combination (order is important!) makes sure the image stays at the size of the display and in the centre
+* The -colorspace -colors -type combi makes the image a 1-bit grayscale b/w image
+
+Then we use chucky with our extension to show
 
 ```ruby
-image = ChunkyPNG::Image.from_file('/some/png/file/path.png')
-display.show(encode_png_pixels_to_scanline_grayscale_1bit(pixels))
+irb
+require 'papirus'
+require 'papirus/chunky'
+display = PaPiRus::Display.new()
+image = ChunkyPNG::Image.from_file('out.png')
+display.show(image.to_bit_stream(true))
+```
+
+# Playing with RMagic (does not work yet), did not figure out right command
+
+```ruby
+require 'papirus'
+require 'rmagick'
+
+display = PaPiRus::Display.new()
+img = Magick::Image::read('/path/to/img/file.(png|jpg|etc').first
+resized = img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace)
+resized.background_color = "#FFFFFF"
+x = (resized.columns - display.width) / 2                # calculate necessary translation to center image on background
+y = (resized.rows - display.height) / 2
+resized = resized.extent(display.width, display.height, x, y)    # 'extent' fills out the resized image if necessary, with the background color, to match the full requested dimensions
+resized.write(File.join([display.epd_path,'LE', 'display'])) { self.image_type = Magick::BilevelType}
+display.update
+
+# we have to translate it to a 2 bit grayscale as that is what our PaPiRus understands
+display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob())
 ```
 
 ## Testing without a PAPiRus display
