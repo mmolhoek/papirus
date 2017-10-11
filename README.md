@@ -43,7 +43,7 @@ $ (Windows) no idea (did not use windows for 20 year, yes that is possible)
 $ gem install chunky_png
 ```
 
-The, start an irb session to play around
+Then, start an irb session to play around
 ```ruby
 irb
 require 'papirus'
@@ -119,7 +119,7 @@ display.show(image.to_bit_stream(true))
 result:
 ![that's me](https://raw.githubusercontent.com/mmolhoek/papirus/master/example_output.jpg)
 
-# Playing with RMagic (does not work yet), did not figure out right command
+# Playing with RMagic
 
 First install rmagick
 
@@ -132,17 +132,17 @@ $ # install the gem that talks to the native Image Magick library
 $ gem install rmagick
 ```
 
-The, start an irb session to play around
+Then, start an irb session to play around
 ```ruby
 require 'papirus'
 require 'papirus/rmagick'
 
 display = PaPiRus::Display.new()
-img = Magick::Image::read('/path/to/img/file.(png|jpg|etc').first
+img = Magick::Image::read('/path/to/img/file.(png|jpg|etc)'.first
 img.to_papirus(display)
 ```
 
-## Testing without a PAPiRus display
+## Testing without a PaPiRus display
 
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
