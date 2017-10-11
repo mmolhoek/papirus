@@ -1,6 +1,8 @@
 module PaPiRus
+    # The {PaPiRus::Display} can be use to send image data to the
+    # epd fuse driver
     class Display
-        attr_reader :epd_path, :width, :height, :panel, :cog, :film, :auto, :allowed_commands
+        attr_reader :epd_path, :width, :height, :panel, :cog, :film, :auto, :allowed_commands, :display_path
         attr_accessor :rotation, :inverse, :image
 
         def initialize(epd_path: '/dev/epd', width: 200, height: 96, panel: 'EPD 2.0', cog: 0, film: 0, auto: false, inverse: false, rotation: 0)
@@ -53,6 +55,7 @@ module PaPiRus
             #and update the properties accordingly
             if File.exists?(File.join(@epd_path, 'panel'))
                 info = File.read(File.join(@epd_path, 'panel'))
+                @display_path = File.join([@epd_path, 'LE', 'display'])
                 if match = info.match(/^([A-Za-z]+\s+\d+\.\d+)\s+(\d+)x(\d+)\s+COG\s+(\d+)\s+FILM\s+(\d+)\s*$/)
                     @panel, @width, @height, @cog, @film = match.captures.each_with_index.map{|val, index| index > 0 ? val.to_i : val}
                 else

@@ -33,6 +33,17 @@ display = PaPiRus::Display.new()
 ```
 
 # Playing with Chunky_PNG
+
+First install chunky_png
+
+```bash
+$ (OSX) brew install chunky_png
+$ (debian/ubuntu) sudo apt-get install chunky_png
+$ (Windows) no idea (did not use windows for 20 year, yes that is possible)
+$ gem install chunky_png
+```
+
+The, start an irb session to play around
 ```ruby
 irb
 require 'papirus'
@@ -110,22 +121,25 @@ result:
 
 # Playing with RMagic (does not work yet), did not figure out right command
 
+First install rmagick
+
+```bash
+$ # install native Image Magick library
+$ (OSX) brew install imagemagick@6 && brew link imagemagick@6 --force
+$ (debian/ubuntu) sudo apt-get install imagemagick
+$ (Windows) no idea (did not use windows for 20 year, yes that is possible)
+$ # install the gem that talks to the native Image Magick library
+$ gem install rmagick
+```
+
+The, start an irb session to play around
 ```ruby
 require 'papirus'
-require 'rmagick'
+require 'papirus/rmagick'
 
 display = PaPiRus::Display.new()
 img = Magick::Image::read('/path/to/img/file.(png|jpg|etc').first
-resized = img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace)
-resized.background_color = "#FFFFFF"
-x = (resized.columns - display.width) / 2                # calculate necessary translation to center image on background
-y = (resized.rows - display.height) / 2
-resized = resized.extent(display.width, display.height, x, y)    # 'extent' fills out the resized image if necessary, with the background color, to match the full requested dimensions
-resized.write(File.join([display.epd_path,'LE', 'display'])) { self.image_type = Magick::BilevelType}
-display.update
-
-# we have to translate it to a 2 bit grayscale as that is what our PaPiRus understands
-display.show(img.resize_to_fit(display.width, display.height).quantize(2, Magick::GRAYColorspace).to_blob())
+img.to_papirus(display)
 ```
 
 ## Testing without a PAPiRus display

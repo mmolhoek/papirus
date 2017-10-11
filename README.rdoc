@@ -1,7 +1,7 @@
 = papirus
 
 This gem can be used to communicate with the {PaPiRus}[https://github.com/PiSupply/PaPiRus] display.
-Checkout {GitHub}[http://github.com/mmolhoek/papirus] for examples
+Checkout {GitHub}[http://github.com/mmolhoek/papirus] for examples and documentation
 
 == Contributing to papirus
 
