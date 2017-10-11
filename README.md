@@ -119,7 +119,7 @@ display.show(image.to_bit_stream(true))
 result:
 ![that's me](https://raw.githubusercontent.com/mmolhoek/papirus/master/example_output.jpg)
 
-# Playing with RMagic
+# Playing with RMagic (not working yet)
 
 First install rmagick
 
