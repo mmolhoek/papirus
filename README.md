@@ -2,7 +2,7 @@
 
 ruby gem to talk to the [PaPiRus](https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1) display
 
-before you start playing make sure you got the edp-fuse setup
+before you start playing make sure you got the display driver installed (gratis/edp-fuse)
 
 ## epaper fuse driver installation instructions (if you have not done that already ::)
 ```bash
@@ -16,13 +16,14 @@ systemctl enable epd-fuse.service
 systemctl start epd-fuse
 ```
 
-You can find more detailed instructions [https://github.com/repaper/gratis](here)
+You can find more detailed instructions and updates at the [https://github.com/repaper/gratis](gratis) repo
 
-## gem installation
+## gem installation (add sudo if your not useing [https://rvm.io/](rvm))
 
 ```bash
 $ gem install papirus
 ```
+
 ## usage
 
 ```ruby
@@ -32,6 +33,45 @@ require 'papirus'
 display = PaPiRus::Display.new()
 ```
 
+## there are multiple screen commands ['F', 'P', 'U', 'C']
+
+The `image.to_bit_stream` will be explained for both RMagic and ChunkyPNG below
+
+Full update (with screen cleaning):
+
+`display.show(image.to_bit_stream(display.width, display.height))`
+
+Fast update:
+
+`display.show(image.to_bit_stream(display.width, display.height)), 'F')`
+
+Partial update:
+
+`display.show(image.to_bit_stream(display.width, display.height), 'P')`
+
+# Playing with RMagic
+
+First install rmagick
+
+```bash
+$ # install native Image Magick library
+$ (OSX) brew install imagemagick@6 && brew link imagemagick@6 --force
+$ (debian/ubuntu) sudo apt-get install imagemagick
+$ (Windows) no idea (did not use windows for 20 years, and would like to add some more)
+$ # install the gem that talks to the native Image Magick library
+$ gem install rmagick
+```
+
+Then, start an irb session to play around
+```ruby
+require 'papirus'
+require 'papirus/rmagick'
+
+display = PaPiRus::Display.new()
+image = Magick::Image::read('/path/to/img/file.(png|jpg|etc)'.first
+display.show(image.to_bit_stream(display.width, display.height))
+```
+
 # Playing with Chunky_PNG
 
 First install chunky_png
@@ -39,11 +79,33 @@ First install chunky_png
 ```bash
 $ (OSX) brew install chunky_png
 $ (debian/ubuntu) sudo apt-get install chunky_png
-$ (Windows) no idea (did not use windows for 20 year, yes that is possible)
+$ (Windows) no idea (did not use windows for 20 years, and would like to add some more)
 $ gem install chunky_png
 ```
 
-Then, start an irb session to play around
+## Load an image from a png file
+
+```ruby
+irb
+require 'papirus'
+require 'papirus/chunky'
+display = PaPiRus::Display.new()
+image = ChunkyPNG::Image.from_file('out.png')
+display.show(image.to_bit_stream(display.width, display.height))
+```
+
+The only problem here is the aspect ration of the image is not ok anymore. is a todo
+But for now you could also use Image magick's convert tool to rescale  the image and place it in the middle
+
+First, let's use Image Magick's `convert` tool to convert any image into an scaled, centered png
+```bash
+convert in.jpg -resize '264x176' -gravity center -extent '264x176' out.png
+```
+
+now, load it like explaned above and the image should be in the right aspect ration
+
+## Playing with drawing circles
+
 ```ruby
 irb
 require 'papirus'
@@ -75,73 +137,6 @@ display.clear
 end
 ```
 
-## there are multiple screen commands ['F', 'P', 'U', 'C']
-
-Full update (with screen cleaning):
-
-```display.show(image.to_bit_stream); display.update``` or
-
-```display.show(image.to_bit_stream, 'U')```
-
-Fast update:
-
-```display.show(image.to_bit_stream); display.fast_update```
-```display.show(image.to_bit_stream, 'F')```
-
-Partial update:
-
-```display.show(image.to_bit_stream); display.partial_update``` or
-
-```display.show(image.to_bit_stream, 'P')```
-
-## Load an image from a png file with convert and chunky
-
-First, let's use Image Magick's `convert` tool to convert any image into a b/w image the way the diplay likes it
-```bash
-convert in.jpg -resize '264x176' -gravity center -extent '264x176' -colorspace gray  -colors 2 -type bilevel out.png
-```
-
-Where
-* the -resize scales the image to fit the display
-* The -gravity and -extent combination (order is important!) makes sure the image stays at the size of the display and in the centre
-* The -colorspace -colors -type combi makes the image a 1-bit grayscale b/w image
-
-Then we use chucky with our extension to show
-
-```ruby
-irb
-require 'papirus'
-require 'papirus/chunky'
-display = PaPiRus::Display.new()
-image = ChunkyPNG::Image.from_file('out.png')
-display.show(image.to_bit_stream(true))
-```
-result:
-![that's me](https://raw.githubusercontent.com/mmolhoek/papirus/master/example_output.jpg)
-
-# Playing with RMagic (not working yet)
-
-First install rmagick
-
-```bash
-$ # install native Image Magick library
-$ (OSX) brew install imagemagick@6 && brew link imagemagick@6 --force
-$ (debian/ubuntu) sudo apt-get install imagemagick
-$ (Windows) no idea (did not use windows for 20 year, yes that is possible)
-$ # install the gem that talks to the native Image Magick library
-$ gem install rmagick
-```
-
-Then, start an irb session to play around
-```ruby
-require 'papirus'
-require 'papirus/rmagick'
-
-display = PaPiRus::Display.new()
-img = Magick::Image::read('/path/to/img/file.(png|jpg|etc)'.first
-img.to_papirus(display)
-```
-
 ## Testing without a PaPiRus display
 
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
@@ -154,14 +149,26 @@ If you want to test the gem, but don't have your PaPiRus available, you can do t
 * play with the examples above
 * when you run `display.show` the **fake** display /tmp/epd/LE/display is filled with your image
 * now you can use a bin editor like xxd to have a look at the result: `xxd -b /tmp/epd/LE/display`
+* or, use `image.inspect_bitstream(display.width, display.height)` to dump the image as 1's and 0's to the terminal
+* make sure you have your terminal font small enought so the image fits the terminal :)
+
+## handy convert command
+
+This Image Magick convert command creates a 1-bit 2-color png
+```bash
+convert in.jpg -resize '264x176' -gravity center -extent '264x176' -colorspace gray  -colors 2 -type bilevel out.png
+```
+Where
+* the -resize scales the image to fit the display
+* The -gravity and -extent combination (order is important!) makes sure the image stays at the size of the display and in the centre
+* The -colorspace -colors -type combi makes the image a 1-bit grayscale b/w image
 
 ## TODO
 
 * make the image.to_bit_stream routine faster (as it is now to slow to do animations with partial updates)
 * add support for reading the temperature of the display
 * add support for changing the update rate
-* make load png image with chunky_png work (now output is black)
-* make a display.load(image) that takes multiple formats and figures out how to present them
+* make load png image with chunky_png scale keeping aspect ratio in mind
 * create an issue to add your own requests :)
 
 ## Other resources
