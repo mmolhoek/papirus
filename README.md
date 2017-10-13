@@ -1,10 +1,9 @@
 # papirus
 
-ruby gem to talk to the [PaPiRus](https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1) display
+Ruby gem to talk to the [PaPiRus](https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1) display
 
-before you start playing make sure you got the display driver installed (gratis/edp-fuse)
+Before you start playing make sure you got the display driver installed (gratis/edp-fuse)
 
-## epaper fuse driver installation instructions (if you have not done that already ::)
 ```bash
 sudo apt-get install libfuse-dev -y
 
@@ -16,9 +15,9 @@ systemctl enable epd-fuse.service
 systemctl start epd-fuse
 ```
 
-You can find more detailed instructions and updates at the [https://github.com/repaper/gratis](gratis) repo
+You can find more detailed instructions and updates at the [gratis](https://github.com/repaper/gratis) repo
 
-## gem installation (add sudo if your not useing [https://rvm.io/](rvm))
+## gem installation (add sudo if your not using [RVM](https://rvm.io/))
 
 ```bash
 $ gem install papirus
