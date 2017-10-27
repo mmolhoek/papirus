@@ -67,7 +67,7 @@ require 'papirus'
 require 'papirus/rmagick'
 
 display = PaPiRus::Display.new()
-image = Magick::Image::read('/path/to/img/file.(png|jpg|etc)'.first
+image = Magick::Image::read('/path/to/img/file.[png|jpg|etc]').first
 display.show(image.to_bit_stream(display.width, display.height))
 ```
 
