@@ -164,6 +164,7 @@ Where
 
 ## TODO
 
+* tests
 * make the image.to_bit_stream routine faster (as it is now to slow to do animations with partial updates)
 * add support for reading the temperature of the display
 * add support for changing the update rate
