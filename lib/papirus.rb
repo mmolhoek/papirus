@@ -12,7 +12,23 @@ module PaPiRus
         # or 'C' for clearing the screen
         attr_reader :allowed_commands
 
-        def initialize(epd_path: '/dev/epd', width: 200, height: 96, panel: 'EPD 2.0', cog: 0, film: 0, auto: false, inverse: false, rotation: 0)
+        def initialize(epd_path: '/dev/epd', width: 200, height: 96, panel: 'EPD 2.0', cog: 2, film: 231, auto: false, inverse: false, rotation: 0)
+            if epd_path != '/dev/epd'
+                # assuming we use a test dir and it is not created yet
+                require 'fileutils'
+                raise 'epd test path should be located somewhere in /tmp/' unless epd_path =~ /\/tmp\/\w+/
+                if File.exists?(epd_path)
+                    #remove old test dir as it may be a different screen size/type
+                    FileUtils.rm_f(epd_path)
+                end
+                FileUtils.mkdir_p(File.join([epd_path, 'LE']))
+                %w{command LE/display, LE/display_inverse}.each do |file|
+                    FileUtils.touch File.join([epd_path, file])
+                end
+                File.open(File.join([epd_path, 'panel']), 'w+') do |file|
+                    file.write %{#{panel} #{width}x#{height} COG #{cog} FILM #{film}\n}
+                end
+            end
             #transver all vars to attr's
             method(__method__).parameters.each do |type, k|
                 next unless type == :key
@@ -24,7 +40,7 @@ module PaPiRus
         end
 
         def show(*args)
-            raise 'you need to al least provide raw imagedata' if args.length == 0
+            raise 'you need to at least provide raw imagedata' if args.length == 0
             data = args[0]
             updatemethod = args[1] || 'U'
             File.open(File.join(@epd_path, "LE", "display#{@inverse ? '_inverse': ''}"), 'wb') do |io|

@@ -1,10 +1,11 @@
 # papirus
 
-Ruby gem to talk to the [PaPiRus](https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1) display
+Ruby gem to talk to the [PaPiRus](https://www.pi-supply.com/?s=papirus&post_type=product&tags=1&limit=5&ixwps=1) display from a Raspberry PI
 
-Before you start playing make sure you got the display driver installed (gratis/edp-fuse)
+Before you start playing make sure you got the display driver installed (gratis/edp-fuse) on your PI
 
 ```bash
+ssh yourpi
 sudo apt-get install libfuse-dev -y
 
 git clone https://github.com/repaper/gratis.git
@@ -141,11 +142,13 @@ end
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
 * clone this repo
-* run the createtestepd.sh script that is in the repo which creates the needed files and folders in /tmp/epd
 * start irb
 * require 'papirus'
+The gem will create the epd_path test folder and will add all params for the 2.0 panel
 * display = PaPiRus::Display.new(epd_path: '/tmp/epd')
-* play with the examples above
+When you want to add the 2.7 display panel, you would do 
+* display = PaPiRus::Display.new(epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7')
+Now play with the examples above
 * when you run `display.show` the **fake** display /tmp/epd/LE/display is filled with your image
 * now you can use a bin editor like xxd to have a look at the result: `xxd -b /tmp/epd/LE/display`
 * or, use `image.inspect_bitstream(display.width, display.height)` to dump the image as 1's and 0's to the terminal
