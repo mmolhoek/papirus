@@ -144,11 +144,17 @@ If you want to test the gem, but don't have your PaPiRus available, you can do t
 * clone this repo
 * start irb
 * require 'papirus'
-The gem will create the epd_path test folder and will add all params for the 2.0 panel
+
+The gem will create the epd_path test folder (the folder needs to be somwhere in /tmp/) and will set it by default to the 2.0 panel
+
 * display = PaPiRus::Display.new(epd_path: '/tmp/epd')
+
 When you want to add the 2.7 display panel, you would do 
+
 * display = PaPiRus::Display.new(epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7')
+
 Now play with the examples above
+
 * when you run `display.show` the **fake** display /tmp/epd/LE/display is filled with your image
 * now you can use a bin editor like xxd to have a look at the result: `xxd -b /tmp/epd/LE/display`
 * or, use `image.inspect_bitstream(display.width, display.height)` to dump the image as 1's and 0's to the terminal
