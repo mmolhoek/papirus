@@ -28,31 +28,28 @@ $ gem install papirus
 
 First install rmagick
 
-```
-$ # install native Image Magick library
+```bash
+$ # Install native Image Magick library
 $ (OSX) brew install imagemagick@6 && brew link imagemagick@6 --force
 $ (debian/ubuntu) sudo apt-get install imagemagick
 $ (Windows) no idea (did not use windows for 20 years, and would like to add some more)
-$ # install the gem that talks to the native Image Magick library
+$ # Install the gem that talks to the native Image Magick library
 $ gem install rmagick
 ```
 
-Then, start an irb session to play around
+## Using an irb session to play around:
 
 ```
-require 'papirus'
-require 'papirus/rmagick'
-
+$ bundle exec irb -r lib/papirus -r ./lib/papirus/rmagick
 display = PaPiRus::Display.new()
 image = Magick::Image::read('/path/to/img/file.[png|jpg|etc]').first
 display.show(image.to_bit_stream(display.width, display.height))
 ```
 
-# Using with Chunky_PNG
-
-First install chunky_png
+# Using with ChunkyPNG
 
 ```bash
+# install on
 $ (OSX) brew install chunky_png
 $ (debian/ubuntu) sudo apt-get install chunky_png
 $ (Windows) no idea (did not use windows for 20 years, and would like to add some more)
@@ -61,10 +58,8 @@ $ gem install chunky_png
 
 ## Load an image from a png file
 
-```
-irb
-require 'papirus'
-require 'papirus/chunky'
+```ruby
+$ bundle exec irb -r lib/papirus -r ./lib/papirus/chunky
 display = PaPiRus::Display.new()
 image = ChunkyPNG::Image.from_file('out.png')
 display.show(image.to_bit_stream(display.width, display.height))
@@ -94,7 +89,7 @@ image = ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WH
 image.circle(display.width/2, display.height/2, display.height/2-2)
 ```
 
-have a look at [chunky_png](https://github.com/wvanbergen/chunky_png/wiki) for more examples
+have a look at [chunkypng](https://github.com/wvanbergen/chunky_png/wiki) for more examples
 
 ```
 #and last we dump the image as bitsteam to the display
@@ -138,23 +133,14 @@ display.show(image.to_bit_stream(display.width, display.height), 'P')
 
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
-* clone this repo
+ clone this repo
 * start irb
 
 ```
-$ irb
-require 'papirus'
-```
-
-The gem will create the epd_path test folder (the folder needs to be somwhere in /tmp/) and will set it by default to the 2.0 panel
-
-```
+$ bundle exec irb -r ./lib/papirus
+# The gem will create the epd_path test folder (the folder needs to be somwhere in /tmp/) and will set it by default to the 2.0 panel
 display = PaPiRus::Display.new(options:{epd_path: '/tmp/epd'})
-```
-
-When you want to add the 2.7 display panel, you would do
-
-```
+# When you want to add the 2.7 display panel, you would do
 display = PaPiRus::Display.new(options:{epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7'})
 ```
 
@@ -168,9 +154,11 @@ Now play with the examples above
 ## handy convert command
 
 This Image Magick convert command creates a 1-bit 2-color png
+
 ```bash
 convert in.jpg -resize '264x176' -gravity center -extent '264x176' -colorspace gray  -colors 2 -type bilevel out.png
 ```
+
 Where
 * the -resize scales the image to fit the display
 * The -gravity and -extent combination (order is important!) makes sure the image stays at the size of the display and in the centre
@@ -188,9 +176,11 @@ Where
 ## Other resources
 
 * [pi supply python driver](https://github.com/PiSupply/PaPiRus)
+
 ## Development
 
 * Install bundler with ```gem install bundler```
+* Run ```bundle install``` to get all the gems
 * Create the documentation with: ```bundle exec yard```
 * Run the tests with: ```bundle exec rake yard:doctest```
 
