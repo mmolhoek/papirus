@@ -169,8 +169,6 @@ Where
 
 ## TODO
 
-* tests
-* make the image.to_bit_stream routine faster (as it is now to slow to do animations with partial updates)
 * add support for reading the temperature of the display
 * add support for changing the update rate
 * make load png image with chunky_png scale keeping aspect ratio in mind
