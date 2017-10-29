@@ -40,10 +40,12 @@ $ gem install rmagick
 ## Using an irb session to play around:
 
 ```
-$ bundle exec irb -r lib/papirus -r ./lib/papirus/rmagick
+$ irb
+require 'papirus'
+require 'papirus/rmagick'
 display = PaPiRus::Display.new()
 image = Magick::Image::read('/path/to/img/file.[png|jpg|etc]').first
-display.show(image.to_bit_stream(display.width, display.height))
+display.show(data: image.to_bit_stream(display.width, display.height))
 ```
 
 # Using with ChunkyPNG
@@ -59,10 +61,12 @@ $ gem install chunky_png
 ## Load an image from a png file
 
 ```ruby
-$ bundle exec irb -r lib/papirus -r ./lib/papirus/chunky
+$ irb
+require 'papirus'
+require 'papirus/chunky'
 display = PaPiRus::Display.new()
 image = ChunkyPNG::Image.from_file('out.png')
-display.show(image.to_bit_stream(display.width, display.height))
+display.show(data: image.to_bit_stream(display.width, display.height))
 ```
 
 The only problem here is the aspect ration of the image is not ok anymore. is a todo
@@ -93,19 +97,19 @@ have a look at [chunkypng](https://github.com/wvanbergen/chunky_png/wiki) for mo
 
 ```
 #and last we dump the image as bitsteam to the display
-display.show(image.to_bit_stream)
+display.show(data: image.to_bit_stream)
 
 # now we could also change the circle and fast update the screen
 image.replace!(ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE))
 image.circle(display.width/2, display.height/2, display.height/4)
-display.show(image.to_bit_stream, 'F')
+display.show(data: image.to_bit_stream, 'F')
 
 # or update the screen for multiple circles
 display.clear
 2.step(image.height/2-2, 5).each do |radius|
     image.replace!(ChunkyPNG::Image.new(display.width, display.height, ChunkyPNG::Color::WHITE))
     image.circle(display.width/2, display.height/2, radius)
-    display.show(image.to_bit_stream, 'F')
+    display.show(data: image.to_bit_stream, command: 'F')
 end
 ```
 
@@ -114,19 +118,19 @@ end
 Full update (with screen cleaning):
 
 ```
-display.show(image.to_bit_stream(display.width, display.height))
+display.show(data: image.to_bit_stream(display.width, display.height))
 ```
 
 Fast update:
 
 ```
-display.show(image.to_bit_stream(display.width, display.height)), 'F')
+display.show(data: image.to_bit_stream(display.width, display.height)), command: 'F')
 ```
 
 Partial update:
 
 ```
-display.show(image.to_bit_stream(display.width, display.height), 'P')
+display.show(data: image.to_bit_stream(display.width, display.height), command: 'P')
 ```
 
 ## Testing without a PaPiRus display
@@ -134,7 +138,6 @@ display.show(image.to_bit_stream(display.width, display.height), 'P')
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
  clone this repo
-* start irb
 
 ```
 $ bundle exec irb -r ./lib/papirus
