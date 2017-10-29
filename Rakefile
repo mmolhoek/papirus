@@ -24,6 +24,7 @@ Juwelier::Tasks.new do |gem|
   # dependencies defined in Gemfile
   gem.files = Dir.glob('lib/**/*.rb')
 end
+
 Juwelier::RubygemsDotOrgTasks.new
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
@@ -40,12 +41,8 @@ end
 
 task :default => :test
 
-require 'rdoc/task'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "papirus #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+require 'yard-doctest'
+YARD::Doctest::RakeTask.new do |task|
+    task.doctest_opts = %w[-v]
+    task.pattern = 'lib/*.rb'
 end

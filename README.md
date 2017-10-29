@@ -24,36 +24,11 @@ You can find more detailed instructions and updates at the [gratis](https://gith
 $ gem install papirus
 ```
 
-## usage
-
-```ruby
-require 'papirus'
-
-# first we get ourself a display
-display = PaPiRus::Display.new()
-```
-
-## there are multiple screen commands ['F', 'P', 'U', 'C']
-
-The `image.to_bit_stream` will be explained for both RMagic and ChunkyPNG below
-
-Full update (with screen cleaning):
-
-`display.show(image.to_bit_stream(display.width, display.height))`
-
-Fast update:
-
-`display.show(image.to_bit_stream(display.width, display.height)), 'F')`
-
-Partial update:
-
-`display.show(image.to_bit_stream(display.width, display.height), 'P')`
-
-# Playing with RMagic
+# Using with RMagic
 
 First install rmagick
 
-```bash
+```
 $ # install native Image Magick library
 $ (OSX) brew install imagemagick@6 && brew link imagemagick@6 --force
 $ (debian/ubuntu) sudo apt-get install imagemagick
@@ -63,7 +38,8 @@ $ gem install rmagick
 ```
 
 Then, start an irb session to play around
-```ruby
+
+```
 require 'papirus'
 require 'papirus/rmagick'
 
@@ -72,7 +48,7 @@ image = Magick::Image::read('/path/to/img/file.[png|jpg|etc]').first
 display.show(image.to_bit_stream(display.width, display.height))
 ```
 
-# Playing with Chunky_PNG
+# Using with Chunky_PNG
 
 First install chunky_png
 
@@ -85,7 +61,7 @@ $ gem install chunky_png
 
 ## Load an image from a png file
 
-```ruby
+```
 irb
 require 'papirus'
 require 'papirus/chunky'
@@ -98,15 +74,16 @@ The only problem here is the aspect ration of the image is not ok anymore. is a 
 But for now you could also use Image magick's convert tool to rescale  the image and place it in the middle
 
 First, let's use Image Magick's `convert` tool to convert any image into an scaled, centered png
+
 ```bash
 convert in.jpg -resize '264x176' -gravity center -extent '264x176' out.png
 ```
 
 now, load it like explaned above and the image should be in the right aspect ration
 
-## Playing with drawing circles
+## Drawing circles with ChunkyPNG
 
-```ruby
+```
 irb
 require 'papirus'
 require 'papirus/chunky' # add's to_bit_stream function to chucky
@@ -119,7 +96,7 @@ image.circle(display.width/2, display.height/2, display.height/2-2)
 
 have a look at [chunky_png](https://github.com/wvanbergen/chunky_png/wiki) for more examples
 
-```ruby
+```
 #and last we dump the image as bitsteam to the display
 display.show(image.to_bit_stream)
 
@@ -137,21 +114,49 @@ display.clear
 end
 ```
 
+## there are multiple screen commands ['F', 'P', 'U', 'C']
+
+Full update (with screen cleaning):
+
+```
+display.show(image.to_bit_stream(display.width, display.height))
+```
+
+Fast update:
+
+```
+display.show(image.to_bit_stream(display.width, display.height)), 'F')
+```
+
+Partial update:
+
+```
+display.show(image.to_bit_stream(display.width, display.height), 'P')
+```
+
 ## Testing without a PaPiRus display
 
 If you want to test the gem, but don't have your PaPiRus available, you can do the following
 
 * clone this repo
 * start irb
-* require 'papirus'
+
+```
+$ irb
+require 'papirus'
+```
 
 The gem will create the epd_path test folder (the folder needs to be somwhere in /tmp/) and will set it by default to the 2.0 panel
 
-* display = PaPiRus::Display.new(epd_path: '/tmp/epd')
+```
+display = PaPiRus::Display.new(epd_path: '/tmp/epd')
+```
 
-When you want to add the 2.7 display panel, you would do 
+When you want to add the 2.7 display panel, you would do
 
-* display = PaPiRus::Display.new(epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7')
+```
+display = PaPiRus::Display.new(epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7')
+```
 
 Now play with the examples above
 
@@ -183,3 +188,22 @@ Where
 ## Other resources
 
 * [pi supply python driver](https://github.com/PiSupply/PaPiRus)
+## Development
+
+* Install bundler with ```gem install bundler```
+* Create the documentation with: ```bundle exec yard```
+* Run the tests with: ```bundle exec rake yard:doctest```
+
+## Contributing to papirus
+
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
+* Fork the project.
+* Start a feature/bugfix branch.
+* Commit and push until you are happy with your contribution.
+* Make sure to add unit tests for it. This is important so I don't break it in a future version unintentionally.
+* Create a PR
+
+## Copyright
+
+Copyright (c) 2017 Mischa Molhoek. See LICENSE.txt for further details.
