@@ -149,13 +149,13 @@ require 'papirus'
 The gem will create the epd_path test folder (the folder needs to be somwhere in /tmp/) and will set it by default to the 2.0 panel
 
 ```
-display = PaPiRus::Display.new(epd_path: '/tmp/epd')
+display = PaPiRus::Display.new(options:{epd_path: '/tmp/epd'})
 ```
 
 When you want to add the 2.7 display panel, you would do
 
 ```
-display = PaPiRus::Display.new(epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7')
+display = PaPiRus::Display.new(options:{epd_path: '/tmp/epd', width: 264, height: 176, panel: 'EPD 2.7'})
 ```
 
 Now play with the examples above
